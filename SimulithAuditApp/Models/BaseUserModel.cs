@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 
 namespace SimulithAuditApp.Models
 {
-  public class BaseInternalAuditModel
+  public class BaseUserModel
   {
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; }
-    public string Audit { get; set; }
-    public BaseInternalAuditModel()
+    public string DisplayName { get; set; }
+
+    public BaseUserModel()
     {
 
     }
 
-    public BaseInternalAuditModel(InternalAuditModel auditModel)
+    public BaseUserModel(UserModel user)
     {
-      Id = auditModel.Id;
-      Audit = auditModel.Audit;
+      Id = user.Id;
+      DisplayName = user.DisplayName;
     }
   }
 }
