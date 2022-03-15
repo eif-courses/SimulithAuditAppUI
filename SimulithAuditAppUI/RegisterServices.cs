@@ -22,6 +22,21 @@ namespace SimulithAuditAppUI
       builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
       builder.Services.AddSingleton<WeatherForecastService>();
       builder.Services.AddMemoryCache(); // Caching
+
+
+      // Scoped once per user 
+      // Transient 
+      // Sharing data
+      builder.Services.AddSingleton<IDbConnection, DbConnection>();
+      builder.Services.AddSingleton<ICategoryData, MongoCategoryData>(); 
+      builder.Services.AddSingleton<IStatusData, MongoStatusData>();
+      builder.Services.AddSingleton<IInternalAuditData, MongoInternalAuditData>();
+      builder.Services.AddSingleton<IUserData, MongoUserData>();
+
+
     }
+
+   
+
   }
 }
