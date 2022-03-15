@@ -1,0 +1,39 @@
+﻿@page "/SampleData"
+@inject ICategoryData categoryData
+@inject IStatusData statusData
+<h3>SampleData</h3>
+
+
+<button class="btn btn-primary" @onclick="CreateCategories">Create Categories</button>
+
+
+
+@code {
+    private async Task CreateCategories(){
+        var categories = await categoryData.GetAllCategories();
+        if(categories?.Count > 0)
+        {
+            return;
+        }
+        CategoryModel cat = new()
+            {
+                CategoryName = "Courses",
+                CategoryDescription ="Full paid courses"
+            };
+            await categoryData.CreateCategory(cat);
+
+             CategoryModel cat2 = new()
+            {
+                CategoryName = "Dev Questions",
+                CategoryDescription ="Full paid courses"
+            };
+            await categoryData.CreateCategory(cat2);
+             CategoryModel cat3 = new()
+            {
+                CategoryName = "10 min train",
+                CategoryDescription ="Quick video tutorial"
+            };
+            await categoryData.CreateCategory(cat3);
+
+    }
+}
