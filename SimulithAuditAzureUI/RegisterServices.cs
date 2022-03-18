@@ -1,4 +1,8 @@
-﻿namespace SimulithAuditAzureUI
+﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
+
+namespace SimulithAuditAzureUI
 {
   public static class RegisterServices
   {
@@ -7,8 +11,25 @@
       // Add services to the container.
      
       builder.Services.AddRazorPages();
-      builder.Services.AddServerSideBlazor();
+      builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
       builder.Services.AddMemoryCache(); // Caching
+
+      // UI LOGIN generated
+      builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
+
+
+      // Registering auth system
+      builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+       .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
+
+      // Role workaround
+      builder.Services.AddAuthorization(options =>
+      {
+        options.AddPolicy("Admin", policy =>
+        {
+          policy.RequireClaim("jobTitle", "Admin");
+        });
+      });
 
       // Scoped once per user 
       // Transient 

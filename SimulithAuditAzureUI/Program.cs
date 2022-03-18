@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Rewrite;
 using SimulithAuditAzureUI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,23 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Order important
+// Login
+app.UseAuthentication();
+
+// Check permissions
+app.UseAuthorization();
+
+// redirect to home page
+app.UseRewriter(new RewriteOptions().Add(
+  context=>
+  {
+    if(context.HttpContext.Request.Path == "/MicrosoftIdentity/Account/SignedOut")
+    {
+      context.HttpContext.Response.Redirect("/");
+    }
+  }));
+app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
