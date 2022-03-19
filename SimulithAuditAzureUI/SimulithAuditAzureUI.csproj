@@ -18,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Web" Version="1.23.1" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.23.1" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="19.4.0.56" />
   </ItemGroup>
 
 </Project>
