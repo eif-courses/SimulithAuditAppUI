@@ -1,4 +1,6 @@
-﻿namespace SimulithAuditApp.Models
+﻿using MongoDB.Bson.Serialization.IdGenerators;
+
+namespace SimulithAuditApp.Models
 {
   public class UserModel
   {

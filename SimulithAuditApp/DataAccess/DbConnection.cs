@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
-
 namespace SimulithAuditApp.DataAccess
 {
 
