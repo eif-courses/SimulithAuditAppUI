@@ -23,7 +23,7 @@ namespace SimulithAuditApp.DataAccess
     }
     public async Task<UserModel> GetUserFromAuthentication(string objectId)
     {
-      var results = await _users.FindAsync(x => x.Id == objectId);
+      var results = await _users.FindAsync(x => x.ObjectIdentifier == objectId);
       return results.FirstOrDefault();
     }
 

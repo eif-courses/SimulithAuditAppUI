@@ -42,6 +42,17 @@ namespace SimulithAuditApp.DataAccess
       var output = await GetAllInternalModels();
       return output.Where(x => x.ApprovedForRelease == false && x.Rejected == false).ToList();
     }
+    public async Task<List<InternalAuditModel>> GetUsersAuditModels(string userId)
+    {
+      var output = _cache.Get<List<InternalAuditModel>>(userId);
+      if(output is null)
+      {
+        var results = await _internalAuditModels.FindAsync(s => s.Author.Id == userId);
+        output = results.ToList();
+        _cache.Set(output, userId, TimeSpan.FromMinutes(1));
+      }
+      return output;
+    }
     public async Task UpdateInternalAuditModel(InternalAuditModel internalAuditModel)
     {
       await _internalAuditModels.ReplaceOneAsync(m => m.Id == internalAuditModel.Id, internalAuditModel);

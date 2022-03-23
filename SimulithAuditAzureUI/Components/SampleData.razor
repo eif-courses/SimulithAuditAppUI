@@ -1,20 +1,43 @@
 ﻿@page "/SampleData"
+@attribute [Authorize]
+@inject AuthenticationStateProvider authProvider
 @inject ICategoryData categoryData
 @inject IStatusData statusData
+@inject IUserData userData
 <h3>SampleData</h3>
 
 
 <button class="btn btn-primary" @onclick="CreateCategories">Create Categories</button>
 
+<button class="btn btn-primary" @onclick="CreateUser">Create User</button>
 
 
 @code {
+
+    private async Task CreateUser()
+    {
+        var loggedUser = authProvider.GetUserFromAuth(userData);
+
+        UserModel user = new()
+            {
+                FirstName = "Marius",
+                LastName = "mariukanas",
+                EmailAddress = "m.gzegozevskis@gmail.com",
+                ObjectIdentifier = ""
+            };
+            await userData.CreateUser(user);
+
+    }
+
+
     private async Task CreateCategories(){
         var categories = await categoryData.GetAllCategories();
         if(categories?.Count > 0)
         {
+
             return;
         }
+
         CategoryModel cat = new()
             {
                 CategoryName = "Courses",
