@@ -24,6 +24,8 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
+app.UseRequestLocalization(builder.GetLocalizationOptions());
+
 app.UseRouting();
 
 // Order important
@@ -47,8 +49,6 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
-
-
 
 
 // FIle upload https://www.meziantou.net/file-upload-with-progress-bar-in-blazor.htm

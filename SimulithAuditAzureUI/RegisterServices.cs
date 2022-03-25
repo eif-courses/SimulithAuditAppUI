@@ -17,6 +17,12 @@ namespace SimulithAuditAzureUI
       builder.Services.AddSyncfusionBlazor(options => { options.IgnoreScriptIsolation = true; });
 
       // UI LOGIN generated
+      builder.Services.AddControllers();
+      builder.Services.AddLocalization(options =>
+      {
+        options.ResourcesPath = "Resources";
+      });
+
       builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
 
 
@@ -41,6 +47,18 @@ namespace SimulithAuditAzureUI
       builder.Services.AddSingleton<IStatusData, MongoStatusData>();
       builder.Services.AddSingleton<IInternalAuditData, MongoInternalAuditData>();
       builder.Services.AddSingleton<IUserData, MongoUserData>();
+    }
+    public static RequestLocalizationOptions GetLocalizationOptions(this WebApplicationBuilder builder)
+    {
+      var cultures = builder.Configuration.GetSection("Cultures")
+        .GetChildren().ToDictionary(x => x.Key, x => x.Value);
+      
+      var supportedCultures = cultures.Keys.ToArray();
+    
+      var localizationOptions = new RequestLocalizationOptions()
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
+      return localizationOptions;
     }
   }
 }
