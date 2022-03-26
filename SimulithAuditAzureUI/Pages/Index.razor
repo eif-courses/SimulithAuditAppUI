@@ -2,10 +2,15 @@
 @inject ProtectedSessionStorage sessionStorage
 @inject AuthenticationStateProvider authProvider
 @inject IUserData userData
+@inject IStringLocalizer<App> Localizer
 @using System.Globalization
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
+
 <PageTitle>Index</PageTitle>
+<h1>@Localizer["Hello World"]</h1>
+<h2>@DateTime.Now.ToShortDateString()</h2>
+<h2>@DateTime.Now.ToLongDateString()</h2>
 
 <LoginDisplay/>
 <SfCalendar TValue="DateTime" />
