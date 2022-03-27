@@ -1,10 +1,16 @@
 using Microsoft.AspNetCore.Rewrite;
 using SimulithAuditAzureUI;
+using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.ConfigureServices();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = options.DefaultPolicy;
+});
 var app = builder.Build();
 
 //Register Syncfusion license
@@ -25,6 +31,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRequestLocalization(builder.GetLocalizationOptions());
+
 
 app.UseRouting();
 
@@ -49,6 +56,3 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
-
-
-// FIle upload https://www.meziantou.net/file-upload-with-progress-bar-in-blazor.htm
