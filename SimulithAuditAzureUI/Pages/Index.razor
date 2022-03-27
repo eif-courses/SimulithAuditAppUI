@@ -3,9 +3,10 @@
 @inject AuthenticationStateProvider authProvider
 @inject IUserData userData
 @inject IStringLocalizer<App> Localizer
+@using Syncfusion.Blazor.Inputs
 @using System.Globalization
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-
+@using System.IO
 
 <PageTitle>Index</PageTitle>
 <h1>@Localizer["Hello World"]</h1>
@@ -15,8 +16,35 @@
 <LoginDisplay/>
 <SfCalendar TValue="DateTime" />
 
+<SfUploader AutoUpload="false">
+    <UploaderEvents ValueChange="OnChange" OnRemove="OnRemove"></UploaderEvents>
+</SfUploader>
+
+
 @code {
     private UserModel loggedInUser;
+     private void OnChange(UploadChangeEventArgs args)
+    {
+        foreach (var file in args.Files)
+        {
+            var path = @"Uploads\" + file.FileInfo.Name;
+            FileStream filestream = new FileStream(path, FileMode.Create, FileAccess.Write);
+            file.Stream.WriteTo(filestream);
+            filestream.Close();
+            file.Stream.Close();
+        }
+    }
+    private void OnRemove(RemovingEventArgs args)
+{
+    foreach(var removeFile in args.FilesData)
+    {
+        if (File.Exists(Path.Combine(@"Uploads\", removeFile.Name)))
+        {
+            File.Delete(Path.Combine(@"Uploads\", removeFile.Name));
+        }
+    }
+}
+
 
     protected async override Task OnInitializedAsync()
     {
