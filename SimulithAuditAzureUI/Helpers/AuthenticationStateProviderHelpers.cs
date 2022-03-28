@@ -12,4 +12,5 @@ namespace SimulithAuditAzureUI.Helpers
       return await userData.GetUserFromAuthentication(objectId);
     }
   }
+
 }

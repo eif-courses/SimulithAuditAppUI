@@ -121,4 +121,13 @@
     <value>Sveikas pasauli</value>
     <comment>Say Hello</comment>
   </data>
+  <data name="Select..." xml:space="preserve">
+    <value>Pasirinkite...</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Pakeisti</value>
+  </data>
+  <data name="Site Language" xml:space="preserve">
+    <value>Svetainės kalba</value>
+  </data>
 </root>

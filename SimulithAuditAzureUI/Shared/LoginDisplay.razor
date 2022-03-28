@@ -1,4 +1,5 @@
-﻿<AuthorizeView Policy="Admin">
+﻿@inject IStringLocalizer<App> Localizer
+<AuthorizeView Policy="Admin">
     <a href="/AdminApproval">Admin</a>
 </AuthorizeView>
 <AuthorizeView>

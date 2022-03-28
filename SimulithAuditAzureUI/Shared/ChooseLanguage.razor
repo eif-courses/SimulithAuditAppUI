@@ -1,35 +1,46 @@
 ﻿@inject NavigationManager NavigationManager
 @inject IConfiguration Configuration
+@inject IStringLocalizer<App> Localizer
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.SplitButtons
 
 
-@if (cultures != null)
+@if (_cultures != null)
 {
-    <form class="form-inline">
-        <select class="form-control mr-2" @bind="selectedCulture">
-            <option>Select...</option>
-            @foreach(var culture in cultures)
+
+<div class="input-group">
+  <select class="form-select" id="inputGroupSelect04" @onchange="Change" aria-label="Example select with button addon">
+    <option style="color:grey;">
+        @_cultures[@selectedCulture]
+    </option>
+      @foreach(var culture in _cultures)
             {
                 <option value="@culture.Key">
                     @culture.Value
                 </option>
             }
-        </select>
-        <button class="btn btn-outline-primary" @onclick="RequestCultureChange">
-            Change
-        </button>
-    </form>
+  </select>
+</div>
 }
 
 @code {
     private string selectedCulture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
-    private Dictionary<string, string> cultures;
+    private Dictionary<string, string> _cultures;
 
     protected override void OnInitialized()
     {
-        cultures = Configuration.GetSection("Cultures")
+        _cultures = Configuration.GetSection("Cultures")
         .GetChildren().ToDictionary(x => x.Key, x => x.Value);
-
     }
+
+    private void Change(ChangeEventArgs e)
+    {
+        selectedCulture = e.Value.ToString();
+        RequestCultureChange();
+    }
+
+
     private void RequestCultureChange()
     {
         if (string.IsNullOrWhiteSpace(selectedCulture))

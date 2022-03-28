@@ -121,4 +121,13 @@
     <value>Hola Mundo</value>
     <comment>Say Hello</comment>
   </data>
+  <data name="Select..." xml:space="preserve">
+    <value>Seleccione...</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Cambiar</value>
+  </data>
+  <data name="Site Language" xml:space="preserve">
+    <value>Idioma del sitio</value>
+  </data>
 </root>
