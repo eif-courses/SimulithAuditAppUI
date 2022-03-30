@@ -3,23 +3,114 @@
 @inject AuthenticationStateProvider authProvider
 @inject IUserData userData
 @inject IStringLocalizer<App> Localizer
-@using Syncfusion.Blazor.Inputs
 @using System.Globalization
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using System.IO
 
-<PageTitle>Index</PageTitle>
-<h1>@Localizer["Hello World"]</h1>
-<h2>@DateTime.Now.ToShortDateString()</h2>
-<h2>@DateTime.Now.ToLongDateString()</h2>
-
-<LoginDisplay/>
-<SfCalendar TValue="DateTime" />
 
 
-<SfUploader AutoUpload="false" Multiple="false" ID="UploadFiles" MaxFileSize="5000000">
+
+<MudContainer Class="mt-7 px-8" MaxWidth="MaxWidth.False">
+
+    <MudGrid>
+        <MudItem>
+             <MudPaper Elevation="0" Style="height: auto;">
+                <MudCard>
+    <MudCardMedia Image="/Images/software-header.jpg" Height="300" />
+    <MudCardContent>
+        <MudText Typo="Typo.h3" Color="Color.Inherit">Internal audit tool</MudText>
+        <MudText Typo="Typo.body2">        StayWell project is a two-year initiative, implemented in the framework of the Erasmus + programme, Strategic partnerships for vocational education and training.
+
+The project is targeted at secondary VET: learners; teachers, educators, trainers and professionals; psychologists and leaders; representatives of organisations promoting mental health and wellbeing in secondary VET; public bodies involved in secondary VET.
+</MudText>
+        <MudText Typo="Typo.body2">This photo was taken in a small village in Istra Croatia.</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Success" Size="Size.Large">Try platform</MudButton>
+    </MudCardActions>
+</MudCard>
+            </MudPaper>
+    </MudItem>
+    
+</MudGrid>
+
+
+
+
+  
+
+
+    <MudGrid>
+
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="0" Style="height: auto;">
+                <MudCard>
+    <MudCardMedia Image="https://www.syncfusion.com/blogs/wp-content/uploads/2020/04/Easily-Create-Blazor-Project-Using-Syncfusion-Blazor-Template-Studio.jpg" Height="200" />
+    <MudCardContent>
+        <MudText Typo="Typo.h5">Internal audit tool</MudText>
+        <MudText Typo="Typo.body2">Old paint found on a stone house door.</MudText>
+        <MudText Typo="Typo.body2">This photo was taken in a small village in Istra Croatia.</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Share</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+    </MudCardActions>
+</MudCard>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+             <MudPaper Elevation="0" Style="height: auto;">
+                <MudCard>
+    <MudCardMedia Image="https://www.syncfusion.com/blogs/wp-content/uploads/2020/11/WASM-Performance-Improvement-in-Syncfusion-Blazor-Tree-Grid.png" Height="200" />
+    <MudCardContent>
+        <MudText Typo="Typo.h5">External audit tool</MudText>
+        <MudText Typo="Typo.body2">Old paint found on a stone house door.</MudText>
+        <MudText Typo="Typo.body2">This photo was taken in a small village in Istra Croatia.</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Share</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+    </MudCardActions>
+</MudCard>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="4">
+                      <MudPaper Elevation="0" Style="height: auto;">
+                <MudCard>
+    <MudCardMedia Image="https://www.syncfusion.com/blogs/wp-content/uploads/2021/09/10-Reasons-You-Should-Choose-Syncfusion-Blazor-DataGrid.png" Height="200" />
+    <MudCardContent>
+        <MudText Typo="Typo.h5">Old Paint</MudText>
+        <MudText Typo="Typo.body2">Old paint found on a stone house door.</MudText>
+        <MudText Typo="Typo.body2">This photo was taken in a small village in Istra Croatia.</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Share</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+    </MudCardActions>
+</MudCard>
+            </MudPaper>
+        </MudItem>
+   
+
+
+
+
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="4">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+
+@*<SfUploader AutoUpload="false" Multiple="false" ID="UploadFiles" MaxFileSize="5000000">
     <UploaderAsyncSettings SaveUrl="api/UploadAzure/Upload"></UploaderAsyncSettings>
-</SfUploader>
+</SfUploader>*@
 
 
 @*<SfUploader AutoUpload="false" MaxFileSize=1000000000>

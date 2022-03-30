@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using Syncfusion.Blazor;
-
+using MudBlazor.Services;
 namespace SimulithAuditAzureUI
 {
   public static class RegisterServices
@@ -14,7 +13,9 @@ namespace SimulithAuditAzureUI
       builder.Services.AddRazorPages();
       builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
       builder.Services.AddMemoryCache(); // Caching
-      builder.Services.AddSyncfusionBlazor(options => { options.IgnoreScriptIsolation = true; });
+      
+      // Custom UI Library
+      builder.Services.AddMudServices();
 
       // UI LOGIN generated
       builder.Services.AddControllers();

@@ -118,19 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Hello World" xml:space="preserve">
-    <value>Hola Mundo</value>
+    <value>France say hello</value>
     <comment>Say Hello</comment>
   </data>
   <data name="Select..." xml:space="preserve">
-    <value>Seleccione...</value>
+    <value>Select...</value>
+    <comment>Select...</comment>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Cambiar</value>
+    <value>Change</value>
+    <comment>Change</comment>
   </data>
   <data name="Site Language" xml:space="preserve">
-    <value>Idioma del sitio</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Vardun</value>
+    <value>Site Language</value>
+    <comment>Site Language</comment>
   </data>
 </root>

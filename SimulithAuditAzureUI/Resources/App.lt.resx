@@ -130,4 +130,7 @@
   <data name="Site Language" xml:space="preserve">
     <value>Svetainės kalba</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Vardas</value>
+  </data>
 </root>

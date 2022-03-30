@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Rewrite;
 using SimulithAuditAzureUI;
-using Microsoft.Identity.Web;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +12,7 @@ builder.Services.AddAuthorization(options =>
 var app = builder.Build();
 
 //Register Syncfusion license
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTk4MDAwQDMxMzkyZTM0MmUzMGlVT3FiUGRtWitqU0dzejQ0WDh6YkhBMTdjV1YrVzlYNG95RE5BQWlyWTQ9");
+//Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTk4MDAwQDMxMzkyZTM0MmUzMGlVT3FiUGRtWitqU0dzejQ0WDh6YkhBMTdjV1YrVzlYNG95RE5BQWlyWTQ9");
 
 
 

@@ -1,15 +1,25 @@
 ﻿@inject NavigationManager NavigationManager
 @inject IConfiguration Configuration
 @inject IStringLocalizer<App> Localizer
-@using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.DropDowns
-@using Syncfusion.Blazor.SplitButtons
 
 
 @if (_cultures != null)
 {
 
-<div class="input-group">
+    <MudSelect @bind-Value="@selectedCulture" @onchange="Change" Label="Austria not representable" Variant="Variant.Outlined">
+    
+        
+           @foreach(var culture in _cultures)
+            {
+                    <MudSelectItem Value="@culture.Value">
+                        @culture.Value
+    </MudSelectItem>
+            }
+       
+</MudSelect>
+
+
+@*<div class="input-group">
   <select class="form-select" id="inputGroupSelect04" @onchange="Change" aria-label="Example select with button addon">
     <option style="color:grey;">
         @_cultures[@selectedCulture]
@@ -21,7 +31,7 @@
                 </option>
             }
   </select>
-</div>
+</div>*@
 }
 
 @code {

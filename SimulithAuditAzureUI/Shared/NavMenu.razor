@@ -1,40 +1,33 @@
-﻿@inject IStringLocalizer<App> Localizer
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">SimulithAuditAzureUI</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-           <div class="nav-item px-3">
-
-                <span aria-hidden="true" style="color:white;">@Localizer["Site Language"]</span> <ChooseLanguage/>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        
-
-      
+﻿<MudNavMenu>
 
 
-    </nav>
-</div>
+            
 
-@code {
-    private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+   <MudStack>
+    <MudPaper Class="pa-4">
+        <MudStack Row="true">
+            <MudAvatar Color="Color.Primary" Size="Size.Medium">M</MudAvatar>
+            <MudStack Justify="Justify.Center" Spacing="0">
+                <MudText Typo="Typo.body1">Mony Larsson</MudText>
+                <MudText Typo="Typo.body2">onebiteonekill@mony.dog</MudText>
+            </MudStack>
+        </MudStack>
+    </MudPaper>
+    </MudStack>
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+            <MudDivider/>
+   
+    <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+    <MudNavLink Href="/servers" Match="NavLinkMatch.Prefix">Servers</MudNavLink>
+    <MudNavGroup Title="Settings" Expanded="true">
+        <MudNavLink Href="/users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
+        <MudNavLink Href="/security"  Match="NavLinkMatch.Prefix">Security</MudNavLink>
+    </MudNavGroup>
+    <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
+
+     <MudStack>
+             <ChooseLanguage/>
+        </MudStack>
+         
+</MudNavMenu>
