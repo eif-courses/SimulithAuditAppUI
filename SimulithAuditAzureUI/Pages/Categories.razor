@@ -1,0 +1,56 @@
+﻿@page "/Categories"
+@attribute [Authorize]
+@inject AuthenticationStateProvider authProvider
+@inject IUserData userData
+@inject IStringLocalizer<App> Localizer
+@inject AuthenticationStateProvider authProvider
+@inject IUserData userData
+@inject ICategoryData categoryData
+@inject NavigationManager navManager
+
+@if (_categories != null)
+{
+    <MudButton OnClick="CreateCategory" Variant="Variant.Filled">Create category</MudButton>
+    <MudButton OnClick="DeleteCategory" Color="Color.Error" Variant="Variant.Filled">Delete category</MudButton>
+    <MudDataGrid Items="_categories">
+    <Columns>
+        <Column T="CategoryModel" Field="CategoryName" />
+        <Column T="CategoryModel" Field="CategoryDescription" />
+    </Columns>
+</MudDataGrid>
+}
+@code {
+    private string dummy = "qq";
+    private IEnumerable<CategoryModel> _categories = new List<CategoryModel>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        _categories = await categoryData.GetAllCategories();
+    }
+
+
+    private async Task CreateCategory(){
+        // var loggedUser = authProvider.GetUserFromAuth(userData);
+
+        CategoryModel category = new()
+            {
+                CategoryName = "Kuriam nauja2222",
+                CategoryDescription = "Naujos kategorijos kurima22s2"
+
+            };
+        await categoryData.CreateCategory(category);
+    }
+    private async Task DeleteCategory()
+    {
+        await categoryData.DeleteCategory("Kuriam nauja2222");
+    }
+
+}
+
+
+
+
+@* public string Id { get; set; }
+    public string CategoryName { get; set; }
+    public string CategoryDescription { get; set; }
+  }*@

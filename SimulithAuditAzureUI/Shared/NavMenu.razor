@@ -1,27 +1,38 @@
-﻿<MudNavMenu>
-
-
-            
-
-
+﻿@attribute [Authorize]
+@inject IStringLocalizer<App> Localizer
+@inject AuthenticationStateProvider authProvider
+@inject IUserData userData
+<MudNavMenu>
+    @if(_loggedInUser != null){
    <MudStack>
     <MudPaper Class="pa-4">
         <MudStack Row="true">
-            <MudAvatar Color="Color.Primary" Size="Size.Medium">M</MudAvatar>
+             
+            <MudAvatar Color="Color.Primary" Size="Size.Medium">@_loggedInUser.DisplayName.Substring(0, 1)</MudAvatar>
             <MudStack Justify="Justify.Center" Spacing="0">
-                <MudText Typo="Typo.body1">Mony Larsson</MudText>
-                <MudText Typo="Typo.body2">onebiteonekill@mony.dog</MudText>
+   
+                <MudText Typo="Typo.body1">@_loggedInUser.DisplayName</MudText>
+              
+             
+                <MudText Typo="Typo.body2"> @_loggedInUser.EmailAddress</MudText>
+                
             </MudStack>
         </MudStack>
     </MudPaper>
     </MudStack>
-
+       }
             <MudDivider/>
    
     <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-    <MudNavLink Href="/servers" Match="NavLinkMatch.Prefix">Servers</MudNavLink>
+    <MudNavLink Href="/Categories" Match="NavLinkMatch.Prefix">Categories</MudNavLink>
     <MudNavGroup Title="Settings" Expanded="true">
-        <MudNavLink Href="/users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
+        
+        
+        <AuthorizeView Policy="Admin">
+        <MudNavLink Href="/Users"  Match="NavLinkMatch.Prefix">Users</MudNavLink>
+       </AuthorizeView>
+        
+        
         <MudNavLink Href="/security"  Match="NavLinkMatch.Prefix">Security</MudNavLink>
     </MudNavGroup>
     <MudNavLink Href="/about"  Match="NavLinkMatch.Prefix">About</MudNavLink>
@@ -31,3 +42,13 @@
         </MudStack>
          
 </MudNavMenu>
+
+
+@code {
+    private UserModel _loggedInUser;
+    protected async override Task OnInitializedAsync()
+    {
+        _loggedInUser = await authProvider.GetUserFromAuth(userData);
+    }
+
+}

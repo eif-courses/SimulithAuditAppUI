@@ -28,5 +28,13 @@ namespace SimulithAuditApp.DataAccess
     {
       return _categories.InsertOneAsync(category);
     }
+
+    public Task DeleteCategory(string id)
+    {
+      var deleteFilter = Builders<CategoryModel>.Filter.Eq(category => category.CategoryName, id);
+      return  _categories.DeleteOneAsync(deleteFilter);
+    }
+
+
   }
 }

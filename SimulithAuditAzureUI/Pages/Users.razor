@@ -1,0 +1,38 @@
+﻿@page "/Users"
+@attribute [Authorize]
+@inject AuthenticationStateProvider authProvider
+@inject IUserData userData
+@inject IStringLocalizer<App> Localizer
+@inject AuthenticationStateProvider authProvider
+@inject IInternalAuditData auditData
+@inject IUserData userData
+@inject NavigationManager navManager
+
+@if (_users != null)
+{
+    <MudDataGrid Items="@_users">
+    <Columns>
+        <Column T="UserModel" Field="FirstName" />
+        <Column T="UserModel" Field="LastName" />
+        <Column T="UserModel" Field="DisplayName" Title="Nickname" />
+        <Column T="UserModel" Field="EmailAddress" />
+    </Columns>
+</MudDataGrid>
+}
+@code {
+    private IEnumerable<UserModel> _users = new List<UserModel>();
+
+    protected async override Task OnInitializedAsync()
+    {
+       _users = await userData.GetUsersAsync();
+    }
+
+}
+@*    public string Id { get; set; }
+    public string ObjectIdentifier { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string DisplayName { get; set; }
+    public string EmailAddress { get; set; }
+    public List<BaseInternalAuditModel> InternalAuditModels { get; set; } = new();
+    public List<BaseInternalAuditModel> VotedOnAuditModels { get; set; } = new();*@
