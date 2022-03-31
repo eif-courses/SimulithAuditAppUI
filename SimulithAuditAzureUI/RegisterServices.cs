@@ -16,7 +16,12 @@ namespace SimulithAuditAzureUI
       
       // Custom UI Library
       builder.Services.AddMudServices();
-
+      
+      
+      // NOT WORKING >???????????
+      builder.Services.AddMudBlazorDialog();
+      
+      
       // UI LOGIN generated
       builder.Services.AddControllers();
       builder.Services.AddLocalization(options =>

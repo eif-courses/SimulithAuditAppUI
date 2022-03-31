@@ -1,4 +1,5 @@
 ﻿@page "/Categories"
+@using SimulithAuditAzureUI.Components
 @attribute [Authorize]
 @inject AuthenticationStateProvider authProvider
 @inject IUserData userData
@@ -8,9 +9,11 @@
 @inject ICategoryData categoryData
 @inject NavigationManager navManager
 
+
+
 @if (_categories != null)
 {
-<MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
+@*<MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
 <MudTextField @bind-Value="DescriptionText" T="string" Label="Outlined" Variant="Variant.Outlined" Placeholder="Description" Lines="3" />
 
     <MudButton OnClick="CreateCategory" Variant="Variant.Filled">Create category</MudButton>
@@ -23,14 +26,51 @@
         <Column T="CategoryModel" Field="CategoryName" />
         <Column T="CategoryModel" Field="CategoryDescription" />
     </Columns>
-</MudDataGrid>
+</MudDataGrid>*@
+
+
+
+<MudContainer Class="d-flex justify-center mb-2">
+    <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Size="Size.Large" IconSize="Size.Large" Label="Add A New
+    Cake" Class="ma-2" @onclick="(e => CreateCategory())"/>
+</MudContainer>
+<MudGrid Justify="Justify.Center" class="pr-4 pl-4">
+    @foreach (var category in _categories)
+    {
+        <MudItem xs="3">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1">@category.CategoryName</MudText>
+                        <MudText Typo="Typo.h6">@category.Id $</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardMedia Image="https://www.logodesign.net/images/nature-logo.png" Height="250" />
+                <MudCardContent>
+                    <MudText Typo="Typo.body2">@category.CategoryDescription</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudIconButton Icon="@Icons.Filled.Edit" Color="Color.Primary"/>
+                    <MudIconButton Icon="@Icons.Filled.Delete" Color="Color.Error" @onclick="(e => DeleteCategory(category.CategoryName))" />
+                </MudCardActions>
+            </MudCard>
+
+        </MudItem>
+
+    }
+
+</MudGrid>
+
+
 
 }
 
 
 @code {
-
    
+   
+
+
     public string TextValue { get; set; }
 
     public string SomeValue { get; set; }
@@ -38,7 +78,7 @@
 
     public string DescriptionText { get; set; }
 
-    private IEnumerable<CategoryModel> _categories = new List<CategoryModel>();
+    private List<CategoryModel> _categories = new List<CategoryModel>();
 
     protected async override Task OnInitializedAsync()
     {
@@ -49,6 +89,7 @@
     private async Task CreateCategory(){
         // var loggedUser = authProvider.GetUserFromAuth(userData);
 
+
         CategoryModel category = new()
             {
                 CategoryName = TextValue,
@@ -57,13 +98,30 @@
             };
         await categoryData.CreateCategory(category);
     }
-    private async Task DeleteCategory()
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+    private async Task DeleteCategory(string id)
     {
-        await categoryData.DeleteCategory("Kuriam nauja2222");
+        await categoryData.DeleteCategory(id);
+        
     }
 
 
 
+
+   
 }
 
 

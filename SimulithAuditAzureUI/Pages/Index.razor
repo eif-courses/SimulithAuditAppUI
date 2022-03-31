@@ -11,6 +11,10 @@
 
 
 <MudContainer Class="mt-7 px-8" MaxWidth="MaxWidth.False">
+    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnButtonClicked" >Delete</MudButton>
+
+<MudChip>@state</MudChip>
+
 
     <MudGrid>
         <MudItem>
@@ -119,5 +123,18 @@ The project is targeted at secondary VET: learners; teachers, educators, trainer
 
 
 @code {
-   
+    [Inject] private IDialogService DialogService { get; set; }
+
+    string state = "Message box hasn't been opened yet";
+
+
+    private async void OnButtonClicked()
+    {
+        bool? result = await DialogService.ShowMessageBox(
+            "Warning", 
+            "Deleting can not be undone!", 
+            yesText:"Delete!", cancelText:"Cancel");
+        state= result==null ? "Cancelled" : "Deleted!";
+        StateHasChanged();
+    }
 }
