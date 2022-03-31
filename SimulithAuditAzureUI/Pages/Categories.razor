@@ -10,17 +10,34 @@
 
 @if (_categories != null)
 {
+<MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
+<MudTextField @bind-Value="DescriptionText" T="string" Label="Outlined" Variant="Variant.Outlined" Placeholder="Description" Lines="3" />
+
     <MudButton OnClick="CreateCategory" Variant="Variant.Filled">Create category</MudButton>
+    
+    
     <MudButton OnClick="DeleteCategory" Color="Color.Error" Variant="Variant.Filled">Delete category</MudButton>
-    <MudDataGrid Items="_categories">
+    <MudDataGrid Items="@_categories" MultiSelection="true" >
     <Columns>
+        <SelectColumn T="CategoryModel" />
         <Column T="CategoryModel" Field="CategoryName" />
         <Column T="CategoryModel" Field="CategoryDescription" />
     </Columns>
 </MudDataGrid>
+
 }
+
+
 @code {
-    private string dummy = "qq";
+
+   
+    public string TextValue { get; set; }
+
+    public string SomeValue { get; set; }
+
+
+    public string DescriptionText { get; set; }
+
     private IEnumerable<CategoryModel> _categories = new List<CategoryModel>();
 
     protected async override Task OnInitializedAsync()
@@ -34,8 +51,8 @@
 
         CategoryModel category = new()
             {
-                CategoryName = "Kuriam nauja2222",
-                CategoryDescription = "Naujos kategorijos kurima22s2"
+                CategoryName = TextValue,
+                CategoryDescription = DescriptionText
 
             };
         await categoryData.CreateCategory(category);
@@ -44,6 +61,8 @@
     {
         await categoryData.DeleteCategory("Kuriam nauja2222");
     }
+
+
 
 }
 
