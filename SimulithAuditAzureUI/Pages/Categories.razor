@@ -1,5 +1,6 @@
 ﻿@page "/Categories"
 @using SimulithAuditAzureUI.Components
+@using SimulithAuditAzureUI.Components.Dialogs
 @attribute [Authorize]
 @inject AuthenticationStateProvider authProvider
 @inject IUserData userData
@@ -9,9 +10,9 @@
 @inject ICategoryData categoryData
 @inject NavigationManager navManager
 @inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
-
-@if (_categories != null)
+@if (CategoriesList != null)
 {
 @*<MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
 <MudTextField @bind-Value="DescriptionText" T="string" Label="Outlined" Variant="Variant.Outlined" Placeholder="Description" Lines="3" />
@@ -35,7 +36,7 @@
     Cake" Class="ma-2" @onclick="(e => CreateCategory())"/>
 </MudContainer>
 <MudGrid Justify="Justify.Center" class="pr-4 pl-4">
-    @foreach (var category in _categories)
+    @foreach (var category in CategoriesList)
     {
         <MudItem xs="3">
             <MudCard>
@@ -60,15 +61,13 @@
     }
 
 </MudGrid>
-
-
-
+  
 }
 
 
 @code {
-   
-   
+
+
 
 
     public string TextValue { get; set; }
@@ -78,38 +77,46 @@
 
     public string DescriptionText { get; set; }
 
-    private List<CategoryModel> _categories = new List<CategoryModel>();
+    public List<CategoryModel> CategoriesList { get; set; } = new List<CategoryModel>();
 
     protected async override Task OnInitializedAsync()
     {
-        _categories = await categoryData.GetAllCategories();
+        CategoriesList = await categoryData.GetAllCategories();
     }
 
 
     private async Task CreateCategory(){
         // var loggedUser = authProvider.GetUserFromAuth(userData);
 
+        DialogOptions closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
 
-        CategoryModel category = new()
-            {
-                CategoryName = TextValue,
-                CategoryDescription = DescriptionText
+        var dialog = DialogService.Show<AddNewCategory>("Simple Dialog", closeOnEscapeKey);
 
-            };
-        await categoryData.CreateCategory(category);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            // Category model casting from dialog return after accept  
+            var temp = (CategoryModel)(result.Data ?? false);
+
+            CategoryModel category = new()
+                {
+                    CategoryName = temp.CategoryName,
+                    CategoryDescription = temp.CategoryDescription
+
+                };
+            await categoryData.CreateCategory(category);
+
+            ShowSnackbar();
+            CategoriesList = await categoryData.GetAllCategories();
+        }
+
     }
 
-
-   
-
-
-
-
-
-
-
-
-
+    public void ShowSnackbar()
+    {
+        Snackbar.Add("Random message", Severity.Normal);
+    }
 
 
     private async Task DeleteCategory(string id)
@@ -128,12 +135,9 @@
         if(!result.Cancelled)
         {
             await categoryData.DeleteCategory(id);
+            CategoriesList = await categoryData.GetAllCategories();
         }
     }
-
-
-
-
    
 }
 
