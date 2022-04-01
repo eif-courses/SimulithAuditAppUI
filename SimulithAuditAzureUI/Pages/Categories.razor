@@ -8,7 +8,7 @@
 @inject IUserData userData
 @inject ICategoryData categoryData
 @inject NavigationManager navManager
-
+@inject IDialogService DialogService
 
 
 @if (_categories != null)
@@ -114,8 +114,21 @@
 
     private async Task DeleteCategory(string id)
     {
-        await categoryData.DeleteCategory(id);
+
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete these records? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<DialogTemplateExample_Dialog>("Delete", parameters, options);
         
+        var result = await dialog.Result;
+        if(!result.Cancelled)
+        {
+            await categoryData.DeleteCategory(id);
+        }
     }
 
 

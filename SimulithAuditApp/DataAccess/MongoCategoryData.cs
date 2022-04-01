@@ -15,12 +15,14 @@ namespace SimulithAuditApp.DataAccess
     }
     public async Task<List<CategoryModel>> GetAllCategories()
     {
+      
       var output = _cache.Get<List<CategoryModel>>(CacheName);
       if (output is null)
       {
         var results = await _categories.FindAsync(_ => true);
         output = results.ToList();
-        _cache.Set(CacheName, output, TimeSpan.FromDays(1));
+        
+        _cache.Set(CacheName, output, TimeSpan.FromMilliseconds(1));
       }
       return output;
     }
