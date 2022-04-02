@@ -16,9 +16,6 @@ namespace SimulithAuditAzureUI
       
       // Custom UI Library
       builder.Services.AddMudServices();
-      
-      
-      // NOT WORKING >???????????
       builder.Services.AddMudBlazorDialog();
       
       

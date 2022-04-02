@@ -46,7 +46,7 @@
 
 @code {
     private UserModel _loggedInUser;
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         _loggedInUser = await authProvider.GetUserFromAuth(userData);
     }

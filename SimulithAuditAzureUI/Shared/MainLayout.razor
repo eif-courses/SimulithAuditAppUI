@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-@inject IStringLocalizer<App> Localizer
+@inject IStringLocalizer<App> _translation
 
 <MudThemeProvider />
 <MudDialogProvider/>
@@ -23,7 +23,7 @@
     <MudMainContent>
     <MudStack Row="true">
         <MudIconButton Class="mt-4 ml-4" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit"OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="mt-6">Practice your skills online
+        <MudText Typo="Typo.h5" Class="mt-6">@_translation["Practice your skills online"]
 
 </MudText>      
         </MudStack>           

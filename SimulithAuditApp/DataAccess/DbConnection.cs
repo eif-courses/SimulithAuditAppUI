@@ -31,15 +31,6 @@ namespace SimulithAuditApp.DataAccess
 
       // Init Collections for mongo
       CategoryCollection = _db.GetCollection<CategoryModel>(CategoryCollectionName);
-
-
-
-
-
-
-
-
-
       StatusCollection = _db.GetCollection<StatusModel>(StatusCollectionName);
       UserCollection = _db.GetCollection<UserModel>(UserCollectionName);
       InternalAuditCollection = _db.GetCollection<InternalAuditModel>(InternalAuditCollectionName);

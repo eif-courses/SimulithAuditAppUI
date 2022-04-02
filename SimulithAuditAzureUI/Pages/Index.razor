@@ -1,11 +1,11 @@
 ﻿@page "/"
-@inject ProtectedSessionStorage sessionStorage
-@inject AuthenticationStateProvider authProvider
-@inject IUserData userData
-@inject IStringLocalizer<App> Localizer
-@using System.Globalization
+@inject ProtectedSessionStorage _sessionStorage
+@inject AuthenticationStateProvider _authProvider
+@inject IUserData _userData
+@inject IStringLocalizer<App> _translation
+@inject IDialogService _dialogService
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@using System.IO
+
 
 
 
@@ -13,7 +13,7 @@
 <MudContainer Class="mt-7 px-8" MaxWidth="MaxWidth.False">
     <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="OnButtonClicked" >Delete</MudButton>
 
-<MudChip>@state</MudChip>
+<MudChip>@_state</MudChip>
 
 
     <MudGrid>
@@ -123,18 +123,18 @@ The project is targeted at secondary VET: learners; teachers, educators, trainer
 
 
 @code {
-    [Inject] private IDialogService DialogService { get; set; }
+    //[Inject] private IDialogService DialogService { get; set; }
 
-    string state = "Message box hasn't been opened yet";
+    private string _state = "Message box hasn't been opened yet";
 
 
     private async void OnButtonClicked()
     {
-        bool? result = await DialogService.ShowMessageBox(
-            "Warning", 
+        bool? result = await _dialogService.ShowMessageBox(
+            _translation["Warning"], 
             "Deleting can not be undone!", 
             yesText:"Delete!", cancelText:"Cancel");
-        state= result==null ? "Cancelled" : "Deleted!";
+        _state= result==null ? "Cancelled" : "Deleted!";
         StateHasChanged();
     }
 }

@@ -36,6 +36,14 @@ namespace SimulithAuditApp.DataAccess
       var deleteFilter = Builders<CategoryModel>.Filter.Eq(category => category.CategoryName, id);
       return  _categories.DeleteOneAsync(deleteFilter);
     }
+    
+    public async Task UpdateCategory(CategoryModel categoryModel)
+    {
+      await _categories.ReplaceOneAsync(m => m.Id == categoryModel.Id, categoryModel);
+      _cache.Remove(CacheName);
+    }
+    
+    
 
 
   }

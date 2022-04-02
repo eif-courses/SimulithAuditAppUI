@@ -5,8 +5,6 @@
 @inject AuthenticationStateProvider authProvider
 @inject IUserData userData
 @inject IStringLocalizer<App> Localizer
-@inject AuthenticationStateProvider authProvider
-@inject IUserData userData
 @inject ICategoryData categoryData
 @inject NavigationManager navManager
 @inject IDialogService DialogService
@@ -51,13 +49,12 @@
                     <MudText Typo="Typo.body2">@category.CategoryDescription</MudText>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudIconButton Icon="@Icons.Filled.Edit" Color="Color.Primary"/>
+                    <MudIconButton Icon="@Icons.Filled.Edit" Color="Color.Primary" OnClick="UpdateCategory"/>
                     <MudIconButton Icon="@Icons.Filled.Delete" Color="Color.Error" @onclick="(e => DeleteCategory(category.CategoryName))" />
                 </MudCardActions>
             </MudCard>
 
         </MudItem>
-
     }
 
 </MudGrid>
@@ -79,7 +76,7 @@
 
     public List<CategoryModel> CategoriesList { get; set; } = new List<CategoryModel>();
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         CategoriesList = await categoryData.GetAllCategories();
     }
@@ -88,7 +85,7 @@
     private async Task CreateCategory(){
         // var loggedUser = authProvider.GetUserFromAuth(userData);
 
-        DialogOptions closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+        DialogOptions closeOnEscapeKey = new DialogOptions { CloseOnEscapeKey = true };
 
         var dialog = DialogService.Show<AddNewCategory>("Simple Dialog", closeOnEscapeKey);
 
@@ -110,12 +107,26 @@
             ShowSnackbar();
             CategoriesList = await categoryData.GetAllCategories();
         }
-
     }
 
-    public void ShowSnackbar()
+    async Task UpdateCategory()
     {
-        Snackbar.Add("Random message", Severity.Normal);
+        DialogOptions closeOnEscapeKey = new DialogOptions { CloseOnEscapeKey = true };
+
+        var dialog = DialogService.Show<AddNewCategory>("Edit Dialog", closeOnEscapeKey);
+
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var temp = (CategoryModel)(result.Data ?? false);
+            await categoryData.UpdateCategory(temp);
+            CategoriesList = await categoryData.GetAllCategories();
+        }
+    }
+
+        void ShowSnackbar()
+    {
+        Snackbar.Add("Random message");
     }
 
 

@@ -136,4 +136,12 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+    <comment>Warning</comment>
+  </data>
+  <data name="Practice your skills online" xml:space="preserve">
+    <value>Practice your skills online</value>
+    <comment>Practice your skills online</comment>
+  </data>
 </root>

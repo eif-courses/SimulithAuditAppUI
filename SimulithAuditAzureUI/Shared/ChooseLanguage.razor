@@ -1,70 +1,54 @@
-﻿@inject NavigationManager NavigationManager
-@inject IConfiguration Configuration
-@inject IStringLocalizer<App> Localizer
+﻿@inject NavigationManager _navigationManager
+@inject IConfiguration _configuration
+@inject IStringLocalizer<App> _translation
+
+<MudSelect T="string" @bind-Value="@_selectedCulture" Label="Austria not representable" Variant="Variant.Outlined">
+    @if (_cultures != null)
+    {
+        @foreach (var culture in _cultures)
+        {
+            <MudSelectItem Value="@culture.Key">
+                @culture.Value
+            </MudSelectItem>
+        }
+    }
+    </MudSelect>
+<MudButton OnClick="RequestCultureChange" Variant="Variant.Outlined">@_translation["Change"]</MudButton>
 
 
-@if (_cultures != null)
-{
 
-    <MudSelect @bind-Value="@selectedCulture" @onchange="Change" Label="Austria not representable" Variant="Variant.Outlined">
-    
-        
-           @foreach(var culture in _cultures)
-            {
-                    <MudSelectItem Value="@culture.Value">
-                        @culture.Value
-    </MudSelectItem>
-            }
-       
-</MudSelect>
-
-
-@*<div class="input-group">
-  <select class="form-select" id="inputGroupSelect04" @onchange="Change" aria-label="Example select with button addon">
-    <option style="color:grey;">
-        @_cultures[@selectedCulture]
-    </option>
-      @foreach(var culture in _cultures)
-            {
-                <option value="@culture.Key">
-                    @culture.Value
-                </option>
-            }
-  </select>
-</div>*@
-}
 
 @code {
-    private string selectedCulture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
-    private Dictionary<string, string> _cultures;
+    private string? _selectedCulture = Thread.CurrentThread.CurrentCulture.Name;
+    private Dictionary<string, string>? _cultures;
 
     protected override void OnInitialized()
     {
-        _cultures = Configuration.GetSection("Cultures")
+        _cultures = _configuration.GetSection("Cultures")
         .GetChildren().ToDictionary(x => x.Key, x => x.Value);
     }
 
     private void Change(ChangeEventArgs e)
     {
-        selectedCulture = e.Value.ToString();
+        _selectedCulture = e.Value?.ToString();
         RequestCultureChange();
     }
 
 
     private void RequestCultureChange()
     {
-        if (string.IsNullOrWhiteSpace(selectedCulture))
+        if (string.IsNullOrWhiteSpace(_selectedCulture))
         {
             return;
         }
 
-        var uri = new Uri(NavigationManager.Uri)
+        var uri = new Uri(_navigationManager.Uri)
         .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
 
-        var query = $"?culture={Uri.EscapeDataString(selectedCulture)}&"+
+        var query = $"?culture={Uri.EscapeDataString(_selectedCulture)}&"+
         $"redirectUri={Uri.EscapeDataString(uri)}";
 
-        NavigationManager.NavigateTo("/Culture/SetCulture" + query, forceLoad: true);
+        _navigationManager.NavigateTo("/Culture/SetCulture" + query, true);
 
     }
 
