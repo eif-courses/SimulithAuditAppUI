@@ -1,14 +1,13 @@
 ﻿@page "/Categories"
-@using SimulithAuditAzureUI.Components
 @using SimulithAuditAzureUI.Components.Dialogs
 @attribute [Authorize]
-@inject AuthenticationStateProvider authProvider
-@inject IUserData userData
-@inject IStringLocalizer<App> Localizer
-@inject ICategoryData categoryData
-@inject NavigationManager navManager
-@inject IDialogService DialogService
-@inject ISnackbar Snackbar
+@inject AuthenticationStateProvider _authProvider
+@inject IUserData _userData
+@inject IStringLocalizer<App> _translation
+@inject ICategoryData _categoryData
+@inject NavigationManager _navManager
+@inject IDialogService _dialogService
+@inject ISnackbar _snackbar
 
 @if (CategoriesList != null)
 {
@@ -31,7 +30,7 @@
 
 <MudContainer Class="d-flex justify-center mb-2">
     <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Size="Size.Large" IconSize="Size.Large" Label="Add A New
-    Cake" Class="ma-2" @onclick="(e => CreateCategory())"/>
+    Cake" Class="ma-2" @onclick="_ => CreateCategory()"/>
 </MudContainer>
 <MudGrid Justify="Justify.Center" class="pr-4 pl-4">
     @foreach (var category in CategoriesList)
@@ -49,8 +48,8 @@
                     <MudText Typo="Typo.body2">@category.CategoryDescription</MudText>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudIconButton Icon="@Icons.Filled.Edit" Color="Color.Primary" OnClick="UpdateCategory"/>
-                    <MudIconButton Icon="@Icons.Filled.Delete" Color="Color.Error" @onclick="(e => DeleteCategory(category.CategoryName))" />
+                    <MudIconButton Icon="@Icons.Filled.Edit" Color="Color.Primary" OnClick="(e=>UpdateCategory(category))"/>
+                    <MudIconButton Icon="@Icons.Filled.Delete" Color="Color.Error" OnClick="(e => DeleteCategory(category.Id))" />
                 </MudCardActions>
             </MudCard>
 
@@ -74,11 +73,11 @@
 
     public string DescriptionText { get; set; }
 
-    public List<CategoryModel> CategoriesList { get; set; } = new List<CategoryModel>();
+    private List<CategoryModel> CategoriesList { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
-        CategoriesList = await categoryData.GetAllCategories();
+        CategoriesList = await _categoryData.GetAllCategories();
     }
 
 
@@ -87,7 +86,7 @@
 
         DialogOptions closeOnEscapeKey = new DialogOptions { CloseOnEscapeKey = true };
 
-        var dialog = DialogService.Show<AddNewCategory>("Simple Dialog", closeOnEscapeKey);
+        var dialog = _dialogService.Show<AddNewCategory>("Simple Dialog", closeOnEscapeKey);
 
         var result = await dialog.Result;
 
@@ -100,53 +99,57 @@
                 {
                     CategoryName = temp.CategoryName,
                     CategoryDescription = temp.CategoryDescription
-
                 };
-            await categoryData.CreateCategory(category);
+            await _categoryData.CreateCategory(category);
 
             ShowSnackbar();
-            CategoriesList = await categoryData.GetAllCategories();
+            CategoriesList = await _categoryData.GetAllCategories();
         }
     }
 
-    async Task UpdateCategory()
+    async Task UpdateCategory(CategoryModel categoryModel)
     {
+
+        var parameters = new DialogParameters { ["Category"] = categoryModel };
+        
         DialogOptions closeOnEscapeKey = new DialogOptions { CloseOnEscapeKey = true };
 
-        var dialog = DialogService.Show<AddNewCategory>("Edit Dialog", closeOnEscapeKey);
+        var dialog = _dialogService.Show<EditCategory>("Edit Dialog", parameters, closeOnEscapeKey);
 
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
             var temp = (CategoryModel)(result.Data ?? false);
-            await categoryData.UpdateCategory(temp);
-            CategoriesList = await categoryData.GetAllCategories();
+            await _categoryData.UpdateCategory(temp);
+            CategoriesList = await _categoryData.GetAllCategories();
         }
     }
 
         void ShowSnackbar()
     {
-        Snackbar.Add("Random message");
+        _snackbar.Add("Random message");
     }
 
 
     private async Task DeleteCategory(string id)
     {
 
-        var parameters = new DialogParameters();
-        parameters.Add("ContentText", "Do you really want to delete these records? This process cannot be undone.");
-        parameters.Add("ButtonText", "Delete");
-        parameters.Add("Color", Color.Error);
+        var parameters = new DialogParameters
+        {
+            {"ContentText", "Do you really want to delete these records? This process cannot be undone."},
+            {"ButtonText", "Delete"},
+            {"Color", Color.Error}
+        };
 
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
-        var dialog = DialogService.Show<DialogTemplateExample_Dialog>("Delete", parameters, options);
+        var dialog = _dialogService.Show<DialogTemplateExample_Dialog>("Delete", parameters, options);
         
         var result = await dialog.Result;
         if(!result.Cancelled)
         {
-            await categoryData.DeleteCategory(id);
-            CategoriesList = await categoryData.GetAllCategories();
+            await _categoryData.DeleteCategory(id);
+            CategoriesList = await _categoryData.GetAllCategories();
         }
     }
    

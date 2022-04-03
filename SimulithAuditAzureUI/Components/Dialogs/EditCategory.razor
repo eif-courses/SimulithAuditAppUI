@@ -1,11 +1,11 @@
 ﻿<MudDialog>
     <DialogContent>
-        <MudTextField T="string" @bind-Value="TextValue" Label="Name"></MudTextField>
-        <MudSelect T="string" @bind-Value="TextDescription"  Label="Favorite Coffee" AnchorOrigin="Origin.BottomCenter">
-            <MudSelectItem Value="@("Cappuccino")" />
-            <MudSelectItem Value="@("Cafe Latte")" />
-            <MudSelectItem Value="@("Espresso")" />
-            <MudSelectItem Value="@("Irish Coffee")" />
+        <MudTextField T="string" @bind-Value="@Category.CategoryName" Label="Name"></MudTextField>
+        <MudSelect T="string" @bind-Value="@Category.CategoryDescription" Label="Favorite Coffee" AnchorOrigin="Origin.BottomCenter">
+            <MudSelectItem Value="@Category.CategoryDescription"/>
+            <MudSelectItem Value="@("Cafe Latte")"/>
+            <MudSelectItem Value="@("Espresso")"/>
+            <MudSelectItem Value="@("Irish Coffee")"/>
         </MudSelect>
     </DialogContent>
     <DialogActions>
@@ -15,15 +15,12 @@
     </DialogActions>
 </MudDialog>
 @code {
+    
+    [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
-     string TextValue { get; set; }
-     string TextDescription { get; set; }
-
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-
-    void Submit() => MudDialog.Close(DialogResult.Ok(new CategoryModel { 
-        CategoryName = TextValue, 
-        CategoryDescription = TextDescription
-    }));
-    void Cancel() => MudDialog.Cancel();
+    [Parameter] public CategoryModel Category { get; set; } = new();
+    
+    void Submit() => MudDialog?.Close(DialogResult.Ok(Category));
+    
+    void Cancel() => MudDialog?.Cancel();
 }
