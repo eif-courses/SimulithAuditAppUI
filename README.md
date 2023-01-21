@@ -88,4 +88,7 @@ Atkreipti dėmesį dėl PORT jeigu naudojamas kitas pvz. 7177 tai tada ir Azure 
 
 ![image](https://user-images.githubusercontent.com/8007447/213887972-3ae6df0e-0f67-4c0c-a0cd-952903fa4439.png)
 
+Jeigu viskas tvarkoje turite gauti tokį langą su prisijungimo prie Žiniatinklio programos 
+
+![image](https://user-images.githubusercontent.com/8007447/213888009-906a09b6-9b96-4fd1-a5cd-5fdadd281937.png)
 
