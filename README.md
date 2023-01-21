@@ -84,5 +84,8 @@ Pavyzdys kaip atrodo suvesta informacija
 
 ![image](https://user-images.githubusercontent.com/8007447/213887672-62693286-d453-49cb-bc78-c62a55151896.png)
 
+Atkreipti dėmesį dėl PORT jeigu naudojamas kitas pvz. 7177 tai tada ir Azure Active Directory B2C pakeisti 
+
+![image](https://user-images.githubusercontent.com/8007447/213887972-3ae6df0e-0f67-4c0c-a0cd-952903fa4439.png)
 
 
